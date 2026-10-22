@@ -1,0 +1,29 @@
+﻿job_role,job_description,seniority,first_question
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+pyhton,knowledge of python,frsher,"Can you explain the difference between a list and a tuple in Python, and provide an example of when you would prefer to use a tuple instead of a list?"
+gen ai developer,"basic knowledge of python , lanchain and implemtation of rag system",fresher,
+python,python,fresher,
+python,python,fresher,
+python,python,fresher,
+python,python,fresher,
+gen ai,gen ai,fresher,
+gen ai,gen ai,fresher,
+gen ai,gen ai,fresher,
+gen ai,gen ai,fresher,
+gen ai,gen ai,fresher,"Can you explain what a generative AI model is and give a simple example, such as a basic language model or an image generator?"
+gen ai,gen ai,fresher,Can you explain what a transformer architecture is and how it enables generative AI models to produce coherent text?
+gen ai,gen ai,fresher,Can you describe the basic components of a transformer model and explain how its self‑attention mechanism enables it to generate coherent text compared to traditional recurrent neural networks?
+gen ai,gen ai,fresher,
+gen ai,gen ai,fresher,Can you explain the basic components of a transformer architecture and how they enable a generative AI model to produce coherent text?
+,,,"Can you explain the differences between synchronous and asynchronous programming models, and describe a scenario where using asynchronous code would provide a clear advantage over a synchronous approach?"
+gen ai,gen ai,fresher,Can you explain the basic components of a generative adversarial network (GAN) and how they work together to generate new data?
+python,python,fresher,"What is the difference between a list and a tuple in Python, and in what scenarios would you choose one over the other?"
+python,python,fresher,"Write a Python function that takes a list of integers and returns a new list containing only the even numbers from the original list, preserving their original order. Explain your solution and its time complexity."
+Python developer,Python sql pandas,Fresher,"How would you use pandas to load data from a SQL database table, perform a group‑by aggregation on a specific column, and then write the resulting aggregated DataFrame back to a new table in the same database?"
+Gen ai,Gen ai,Fresher,"What is a transformer architecture, and how does its self‑attention mechanism enable generative AI models to produce coherent text?"
+gen ai engineer,nlp transformer mcp deep learning ml,fresher,"Explain the core components of a Transformer architecture, focusing on how the self‑attention mechanism works and why it is important for NLP tasks."

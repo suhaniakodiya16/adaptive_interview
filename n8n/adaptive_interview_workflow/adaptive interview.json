@@ -1,0 +1,105 @@
+{
+  "name": "adaptive interview",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "adaptive-interview",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "8bc256e6-8e15-46bb-a61c-786853b06e73",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "b1fc7436-f308-481b-b63c-1931577eb122"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "RECONNECT_AFTER_IMPORT",
+          "mode": "list",
+          "cachedResultName": "interview_jobs",
+          "cachedResultUrl": "RECONNECT_AFTER_IMPORT"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.body.job_id }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "374d4621-60da-42e1-99e5-b7d9e544b87c",
+      "name": "Get row(s)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "enableResponseOutput": true,
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({\n  found: true,\n  job_role: $json.job_role,\n  seniority: $json.seniority,\n  first_question: $json.first_question\n}) }}",
+        "options": {}
+      },
+      "id": "887cfe1c-209c-433d-a408-14875098a962",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e49bfd6c-951a-496a-918e-470fc0303b01",
+  "meta": {
+    "instanceId": "604d41fb7bd95436bfe1e8b9df190fc4de91b1145b999e52b83d8061232a73bc"
+  },
+  "nodeGroups": [],
+  "id": "2UDhn4Sr5xLdGQQB",
+  "tags": []
+}

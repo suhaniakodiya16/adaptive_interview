@@ -1,0 +1,134 @@
+{
+  "name": "Adaptive Interview - Answer Evaluation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evaluate-answer",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6cf53b64-f3cd-4aa4-b90c-cbe9eb5b5779",
+      "name": "Webhook",
+      "webhookId": "ebf0ae0e-33f6-4883-bc7e-a91d6f46f80f"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=\n{{ JSON.stringify({\n  model: \"openai/gpt-oss-120b\",\n  messages: [\n    {\n      role: \"system\",\n      content: `You are a professional adaptive technical interviewer.\n\nEvaluate the candidate's answer and generate exactly ONE adaptive follow-up question.\n\nRULES:\n1. Score the answer from 0 to 10.\n2. Maximum 3 follow-up questions per topic after the initial question.\n3. If FORCE NEW TOPIC is true, switch to a different topic.\n4. If the candidate says \"I don't know\", \"Skip\", or similar, immediately change the topic.\n5. If the answer is strong, increase difficulty gradually.\n6. If the answer is incomplete, ask an appropriate clarification.\n7. If the answer is off-topic, redirect once, then change topics if needed.\n8. Avoid previously completed topics when possible.\n9. Keep questions relevant to the job role and seniority.\n10. Return ONLY valid JSON without markdown.\n\nThe JSON must contain:\n{\n  \"score\": 7,\n  \"feedback\": \"Brief evaluation\",\n  \"next_question\": \"Next technical question\",\n  \"next_topic\": \"Technical topic name\",\n  \"reason\": \"Why this follow-up was selected\"\n}`\n    },\n    {\n      role: \"user\",\n      content: `Job Role: ${$json.body.job_role}\nSeniority: ${$json.body.seniority}\n\nCurrent Question: ${$json.body.question}\nCandidate Answer: ${$json.body.answer}\n\nCurrent Topic: ${$json.body.current_topic}\nQuestions on Current Topic: ${$json.body.topic_question_count}\nForce New Topic: ${$json.body.force_new_topic}\n\nPrevious Topics:\n${JSON.stringify($json.body.previous_topics || [])}\n\nRecent Interview History:\n${JSON.stringify($json.body.recent_history || [])}`\n    }\n  ],\n  temperature: 0.3,\n  response_format: {\n    type: \"json_object\"\n  }\n}) }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "0f535282-5d87-4e0d-8e41-7956c0277048",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RECONNECT_AFTER_IMPORT",
+          "name": "RECONNECT_AFTER_IMPORT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "35ceaebc-b7bd-43d5-b0c8-02750add7b6c",
+              "name": "evaluation",
+              "value": "={{ JSON.parse($json.choices[0].message.content) }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "252b4caa-93af-4a59-a4b2-3058edd00724",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json.evaluation) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        672,
+        0
+      ],
+      "id": "0d640ee3-dc9d-4cf8-86d1-833c352a1613",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3726e150-c42a-4e29-8aae-4eada14378ec",
+  "meta": {
+    "instanceId": "604d41fb7bd95436bfe1e8b9df190fc4de91b1145b999e52b83d8061232a73bc"
+  },
+  "nodeGroups": [],
+  "id": "xUenv5ynFV8BlOpM",
+  "tags": []
+}
