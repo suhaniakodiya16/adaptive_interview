@@ -419,8 +419,8 @@ The Groq API key is configured securely in n8n credentials.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd YOUR_REPOSITORY
+git clone https://github.com/suhaniakodiya16/adaptive_interview.git]
+cd adaptive_interview
 ```
 
 ### 2. Create a Virtual Environment
@@ -611,7 +611,7 @@ This project demonstrates practical experience with:
 
 ## 👨‍💻 Author
 
-**Sajid Patel**
+**Suhani Akodiya**
 
 Aspiring Generative AI Developer | Python Developer
 
